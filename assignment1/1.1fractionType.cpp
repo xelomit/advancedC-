@@ -60,7 +60,7 @@ public:
         os << '(' << f.get_counter() << '/' << f.get_denominator() << ')';
     }
 
-    static void check_char(istream &is, char ch) {
+    inline static void check_char(istream &is, char ch) {
         char c;
         is >> c;
         if(c!=ch) {
