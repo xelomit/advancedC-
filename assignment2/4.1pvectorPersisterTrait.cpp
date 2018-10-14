@@ -10,23 +10,57 @@
 using namespace std;
 
 template<typename T>
+struct persistence_traits {
+
+    static void read(ifstream &i, vector<T> &v) {
+        for(;;) {
+            T x;
+            i >> x;
+            if(!i.good()) break;
+            v.push_back(x);
+        }
+    }
+
+    static void write(ofstream &o, T &elem) {
+        o << elem << endl;
+    }
+};
+
+template<>
+struct persistence_traits<string> {
+
+    //TODO: Read full lines, not just words.
+    static void read(ifstream &i, vector<string> &v) {
+        for(;;) {
+            string x;
+            i >> x;
+            if(!i.good()) break;
+            v.push_back(x);
+        }
+    }
+
+    static void write(ofstream &o, string &elem) {
+        o << elem << endl;
+    }
+};
+
+template<typename T>
 class pvector {
     string filename;
     vector<T> v;
 
     void readvector() {
         ifstream ifs(filename);
-        for(;;) {
-            T x;
-            ifs >> x;
-            if(!ifs.good()) break;
-            v.push_back(x);
-        }
+        persistence_traits<T>::read(ifs, v);
+
     }
 
     void writevector() {
         ofstream ofs(filename);
-        for (const T &elem : v) ofs << elem << endl;
+
+        typename vector<T>::iterator fst=v.begin(), lst=v.end();
+
+        while(fst != lst) persistence_traits<T>::write(ofs, *fst++);
     }
 
 public:
@@ -57,10 +91,10 @@ public:
     }
 };
 
-void foo(pvector<int>* pv) {
+void foo(pvector<int> *pv) {
 
     if(pv->getSize() > 0) pv->printValue(0);
-    pv->push_back(18);
+    pv->push_back(95);
 
 }
 
