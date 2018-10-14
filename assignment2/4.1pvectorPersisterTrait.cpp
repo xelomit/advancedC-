@@ -1,5 +1,5 @@
 //
-// Created by timo on 28.09.18.
+// Created by timo on 14.10.18.
 //
 
 #include <iostream>
@@ -9,15 +9,16 @@
 
 using namespace std;
 
-template<typename T>
+template<typename T, typename C>
 struct persistence_traits {
 
-    static void read(ifstream &i, vector<T> &v) {
+    static void read(ifstream &i, C &container) {
         for(;;) {
+            auto end = container.end();
             T x;
             i >> x;
             if(!i.good()) break;
-            v.push_back(x);
+            container.insert(end, x);
         }
     }
 
@@ -26,16 +27,16 @@ struct persistence_traits {
     }
 };
 
-template<>
-struct persistence_traits<string> {
+template<typename C>
+struct persistence_traits<string, C> {
 
-    //TODO: Read full lines, not just words.
-    static void read(ifstream &i, vector<string> &v) {
+    static void read(ifstream &i, C &container) {
         for(;;) {
+            auto end = container.end();
             string x;
-            i >> x;
+            getline(i, x);
             if(!i.good()) break;
-            v.push_back(x);
+            container.insert(end, x);
         }
     }
 
@@ -44,14 +45,14 @@ struct persistence_traits<string> {
     }
 };
 
-template<typename T>
+template<typename T, typename P=persistence_traits<T, vector<T>>>
 class pvector {
     string filename;
     vector<T> v;
 
     void readvector() {
         ifstream ifs(filename);
-        persistence_traits<T>::read(ifs, v);
+        P::read(ifs, v);
 
     }
 
@@ -60,7 +61,7 @@ class pvector {
 
         typename vector<T>::iterator fst=v.begin(), lst=v.end();
 
-        while(fst != lst) persistence_traits<T>::write(ofs, *fst++);
+        while(fst != lst) P::write(ofs, *fst++);
     }
 
 public:
@@ -91,16 +92,18 @@ public:
     }
 };
 
-void foo(pvector<int> *pv) {
+//TODO: Define class pset analog to pvector.
+
+void foo(pvector<string> *pv) {
 
     if(pv->getSize() > 0) pv->printValue(0);
-    pv->push_back(95);
+    pv->push_back("Hi! This is a string readline test.");
 
 }
 
 int main(int argc, char *argv[]) {
 
-    pvector<int> pv("/tmp/test.txt");
+    pvector<string> pv("/tmp/test.txt");
     foo(&pv);
 
 }
