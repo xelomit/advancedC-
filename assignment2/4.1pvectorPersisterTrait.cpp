@@ -6,8 +6,10 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <set>
 
 using namespace std;
+
 
 template<typename T, typename C>
 struct persistence_traits {
@@ -22,10 +24,14 @@ struct persistence_traits {
         }
     }
 
-    static void write(ofstream &o, T &elem) {
-        o << elem << endl;
+    static void write(ofstream &o, C &container) {
+        for(const T &elem : container) {
+            o << elem << endl;
+        }
     }
+
 };
+
 
 template<typename C>
 struct persistence_traits<string, C> {
@@ -40,14 +46,18 @@ struct persistence_traits<string, C> {
         }
     }
 
-    static void write(ofstream &o, string &elem) {
-        o << elem << endl;
+    static void write(ofstream &o, C &container) {
+        for(const string &elem : container) {
+            o << elem << endl;
+        }
     }
 };
 
+
 template<typename T, typename P=persistence_traits<T, vector<T>>>
 class pvector {
-    string filename;
+    
+string filename;
     vector<T> v;
 
     void readvector() {
@@ -58,20 +68,17 @@ class pvector {
 
     void writevector() {
         ofstream ofs(filename);
-
-        typename vector<T>::iterator fst=v.begin(), lst=v.end();
-
-        while(fst != lst) P::write(ofs, *fst++);
+        P::write(ofs, v);
     }
 
 public:
     pvector(string fname) : filename(fname) {
-        cout << "constructor called!" << endl;        
+        cout << "pvector's constructor called!" << endl;        
 	readvector();
     }
 
     ~pvector() {
-        cout << "destructor called!" << endl;
+        cout << "pvector's destructor called!" << endl;
         writevector();
     }
 
@@ -90,21 +97,77 @@ public:
     void printValue (int index) {
         cout << v[index] << endl;
     }
+
 };
 
-//TODO: Define class pset analog to pvector.
 
-void foo(pvector<string> *pv) {
+template<typename T, typename P=persistence_traits<T, set<T>>>
+class pset {
+    
+    string filename;
+    set<T> s;
+
+    void readset() {
+        ifstream ifs(filename);
+        P::read(ifs, s);
+    }
+
+    void writeset() {
+        ofstream ofs(filename);
+        P::write(ofs, s);
+    }
+
+public:
+    pset(string fname) : filename(fname) {
+        cout << "pset's constructor called!" << endl;
+        readset();
+    }
+
+    ~pset() {
+        cout << "pset's destructor called!" << endl;
+        writeset();
+    }
+
+    void push_back(const T &el) {
+        s.insert(s.end(), el);
+    }
+
+    void pop_back() {
+        s.erase(s.end());
+    }
+
+    int getSize() {
+        return s.size();
+    }
+
+    void printValue (int index) {
+        cout << *s.begin() << endl;
+    }
+
+};
+
+
+void vectorTest(pvector<string> *pv) {
 
     if(pv->getSize() > 0) pv->printValue(0);
-    pv->push_back("Hi! This is a string readline test.");
+    pv->push_back("Hi! This is a string readline test using pvector.");
+
+}
+
+void setTest(pset<string> *ps) {
+
+    if(ps->getSize() > 0) ps->printValue(0);
+    ps->push_back("Hi! This is a string readline test using pset.");
 
 }
 
 int main(int argc, char *argv[]) {
 
-    pvector<string> pv("/tmp/test.txt");
-    foo(&pv);
+    pvector<string> pv("/tmp/testVector.txt");
+    vectorTest(&pv);
+
+    pset<string> ps("/tmp/testSet.txt");
+    setTest(&ps);
 
 }
 
