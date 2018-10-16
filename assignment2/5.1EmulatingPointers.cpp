@@ -10,12 +10,14 @@ using namespace std;
 
 template<typename T>
 struct DumbPointer {
-    T object;
+
+    T *object;
     string address;
 
 public:
     DumbPointer(T &obj) {
-        object = obj;
+        object = &obj;
+
         stringstream ss;
         ss << &obj;
         address = ss.str();
@@ -25,14 +27,26 @@ public:
         return address;
     }
 
+    T operator*() {
+        return *object;
+    }
+
 };
 
 int main(){
 
     int a = 4;
     DumbPointer<int> dumbPointer(a);
-    //auto addr = &a;
-    cout << "adress: " << dumbPointer.getAddress() << endl;
+    //int* dumbPointer = &a;
+    cout << *dumbPointer << endl;
+    cout << dumbPointer.getAddress() << endl;
+    //cout << dumbPointer << endl;
+    int b = 5;
+    a = b;
+    cout << *dumbPointer << endl;
+    cout << dumbPointer.getAddress() << endl;
+    //cout << dumbPointer << endl;
+
 
     return 0;
 }
