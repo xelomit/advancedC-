@@ -169,5 +169,7 @@ int main(int argc, char *argv[]) {
     pset<string> ps("/tmp/testSet.txt");
     setTest(&ps);
 
+    return 0;
+
 }
 
