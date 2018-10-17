@@ -31,21 +31,42 @@ public:
         return *object;
     }
 
+    T* operator->() {
+        return object;
+    }
+
+};
+
+class exampleClass {
+int i;
+public:
+    exampleClass(int n){
+     i = n;
+    }
+
+    int getNumber() {
+        return i;
+    }
+
 };
 
 int main(){
 
     int a = 4;
     DumbPointer<int> dumbPointer(a);
-    //int* dumbPointer = &a;
     cout << *dumbPointer << endl;
     cout << dumbPointer.getAddress() << endl;
-    //cout << dumbPointer << endl;
     int b = 5;
     a = b;
     cout << *dumbPointer << endl;
     cout << dumbPointer.getAddress() << endl;
-    //cout << dumbPointer << endl;
+
+    int c = 7;
+    exampleClass testObject(c);
+    DumbPointer<exampleClass> dumbPointer1(testObject);
+
+    cout << dumbPointer1->getNumber() << endl;
+    cout << dumbPointer1.getAddress() << endl;
 
 
     return 0;
