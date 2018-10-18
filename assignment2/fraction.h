@@ -13,7 +13,6 @@ int lcm(int a, int b) {
     return (a*b) / gcf(a, b);
 }
 
-
 class fraction {
     int c;
     int d;
@@ -53,6 +52,16 @@ public:
     fraction operator/(fraction bRev) {
         fraction b = fraction(bRev.get_denominator(), bRev.get_counter());
         return (*this) * b;
+    }
+
+    bool operator<(const fraction b){
+      int dnm = lcm(d, b.d);
+      return c * dnm / d < b.c * dnm / b.d;
+    }
+
+    bool operator>(const fraction b){
+      int dnm = lcm(d, b.d);
+      return c * dnm / d > b.c * dnm / b.d;
     }
 
     friend ostream &operator<<(ostream &os, fraction f) {

@@ -2,25 +2,26 @@
 // Created by timo on 18.10.18.
 //
 #include <iostream>
-//#include <vector>
 #include <string>
-//#include"fraction.h"
+#include <sstream>
+#include"fraction.h"
 #include"pvector.h"
 
 using namespace std;
 
-inline double mymin(double a, double b) {
-    return a<b ? a : b;
-}
-
+template<typename T>
 class RPNCalculator {
-    pvector<double> vectorStack;
+    pvector<T> vectorStack;
     bool quit;
 
 public:
     RPNCalculator() : vectorStack("/tmp/RPNVector.txt"), quit(false) {
       //Why is 'vectorStack = pvector<double>("/tmp/RPNVector.txt");' not possible here?
       //quit = false;
+    }
+
+    inline T mymin(T a, T b) {
+        return a<b ? a : b;
     }
 
     void calculate(){
@@ -38,66 +39,67 @@ public:
           if(input == "q") {
               quit = true;
           } else if (input.substr(0,1) == "n") {
-
-              double number = stod(input.substr(1, input.size()));
+              istringstream is(input.substr(1, input.size()));
+              T number;
+              is >> number;
               vectorStack.push_back(number);
 
-          } else if (input == "d") {
+          } else if (input == "d" && vectorStack.size() > 0) {
 
               vectorStack.pop_back();
 
           } else if (input == "+" && vectorStack.size() >= 2) {
 
-              double a = vectorStack.get(vectorStack.size()-1);
+              T a = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
-              double b = vectorStack.get(vectorStack.size()-1);
+              T b = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
 
               vectorStack.push_back(a+b);
 
           } else if (input == "-" && vectorStack.size() >= 2) {
 
-              double a = vectorStack.get(vectorStack.size()-1);
+              T a = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
-              double b = vectorStack.get(vectorStack.size()-1);
+              T b = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
 
               vectorStack.push_back(b-a);
 
           } else if (input == "*" && vectorStack.size() >= 2) {
 
-              double a = vectorStack.get(vectorStack.size()-1);
+              T a = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
-              double b = vectorStack.get(vectorStack.size()-1);
+              T b = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
 
               vectorStack.push_back(a*b);
 
           } else if (input == "/" && vectorStack.size() >= 2) {
 
-              double a = vectorStack.get(vectorStack.size()-1);
+              T a = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
-              double b = vectorStack.get(vectorStack.size()-1);
+              T b = vectorStack.get(vectorStack.size()-1);
               vectorStack.pop_back();
 
               vectorStack.push_back(b/a);
 
           } else if(input == "min" && vectorStack.size() >= 2) {
-              if(true){
-                double a = vectorStack.get(vectorStack.size()-1);
-                vectorStack.pop_back();
-                double b = vectorStack.get(vectorStack.size()-1);
-                vectorStack.pop_back();
+               if(true){
+                 T a = vectorStack.get(vectorStack.size()-1);
+                 vectorStack.pop_back();
+                 T b = vectorStack.get(vectorStack.size()-1);
+                 vectorStack.pop_back();
 
-                vectorStack.push_back(mymin(a, b));
-              }
+                 vectorStack.push_back(mymin(a, b));
+               }
           }
+       }
     }
-  }
 };
 
 int main(){
-    RPNCalculator calc;
+    RPNCalculator<fraction> calc;
     calc.calculate();
     return 0;
 }
