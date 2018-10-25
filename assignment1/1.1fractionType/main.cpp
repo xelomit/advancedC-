@@ -2,9 +2,8 @@
 // Created by timo on 22.09.18.
 //
 
-#include "fraction.h"
 #include <iostream>
-
+#include "fraction.h"
 
 using namespace std;
 
