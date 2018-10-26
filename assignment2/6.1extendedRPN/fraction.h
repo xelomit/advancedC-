@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 int gcf(int a, int b) {
     return b == 0 ? a : gcf(b, a % b);
 }
@@ -64,20 +62,20 @@ public:
       return c * dnm / d > b.c * dnm / b.d;
     }
 
-    friend ostream &operator<<(ostream &os, fraction f) {
+    friend std::ostream &operator<<(std::ostream &os, fraction f) {
         os << '(' << f.get_counter() << '/' << f.get_denominator() << ')';
     }
 
-    inline static void check_char(istream &is, char ch) {
+    inline static void check_char(std::istream &is, char ch) {
         char c;
         is >> c;
         if(c!=ch) {
             is.putback(c);
-            is.setstate(ios::badbit);
+            is.setstate(std::ios::badbit);
         }
     }
 
-    friend istream &operator>>(istream &is, fraction &f) {
+    friend std::istream &operator>>(std::istream &is, fraction &f) {
         fraction g;
         check_char(is, '('); is >> g.c;
         check_char(is, '/'); is >> g.d;
