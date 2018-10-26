@@ -2,7 +2,7 @@
 // Created by timo on 18.10.18.
 //
 
-#include"fraction.h"
+#include "fraction.h"
 #include "RPNCalculator.h"
 
 int main(){
