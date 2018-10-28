@@ -7,17 +7,19 @@
 
 #include <string>
 #include "pset.h"
-#include "pvectorReadOnly.h"
+#include "pvector.h"
 
 struct simple_spell_checker {
 
     pset<std::string> dictionary;
-    pvectorReadOnly<std::string> inputFile;
+    pvector<std::string> inputFile;
 
 public:
 
     simple_spell_checker(std::string dictFileName, std::string inputFileName);
     void spellCheck();
+    void replace(int index);
+    void printCorrectedText();
 
 };
 

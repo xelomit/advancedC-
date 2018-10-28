@@ -55,12 +55,15 @@ public:
             ite++;
         }
 
-        //std::cout << *ite << std::endl;
         return *ite;
     }
 
     auto find(T focus) {
         return s.find(focus);
+    }
+
+    auto begin() {
+        return s.begin();
     }
 
     auto end() {

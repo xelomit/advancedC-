@@ -22,7 +22,7 @@ struct persistence_traits {
 
     static void write(std::ofstream &o, C &container) {
         for(const T &elem : container) {
-            o << elem << std::endl;
+            o << elem << " ";
         }
     }
 
