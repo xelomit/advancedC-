@@ -11,6 +11,15 @@ void simple_spell_checker::spellCheck() {
     for(int i= 0; i<inputFile.getSize(); i++){
         //TODO: Chop off any surrounding punctuation.
         std::string focus = inputFile.getValue(i);
+        std::string suffix;
+
+        for (int j = 0, len = focus.size(); j < len; j++) {
+            if(ispunct(focus[j])) {
+                suffix = focus[j];
+                focus.erase(j--, 1);
+                len = focus.size();
+            }
+        }
 
         auto ite = dictionary.find(focus);
 
@@ -27,8 +36,9 @@ void simple_spell_checker::spellCheck() {
                     break;
                 }
                 case 'r' : {
-                    replace(i);
-                    std::cout << std::endl;
+                    std::cout << std::endl << "please enter the index of the dictionary "
+                                              "word you want to replace \"" << focus << "\" with:"<< std::endl;
+                    replace(i, suffix);
                     break;
                 }
                 case 'i' : {
@@ -47,10 +57,8 @@ void simple_spell_checker::spellCheck() {
     printCorrectedText();
 }
 
-void simple_spell_checker::replace(int index) {
+void simple_spell_checker::replace(int index, std::string suffix) {
     std::string focus = inputFile.getValue(index);
-
-    std::cout << std::endl << "please enter the index of the dictionary word you want to replace \"" << focus << "\" with:" << std::endl;
 
     int count = 1;
     for(auto ite = dictionary.begin(); ite != dictionary.end(); ++ite){
@@ -63,7 +71,7 @@ void simple_spell_checker::replace(int index) {
     std::cin >> input;
 
     if(input > 0 && input < count){
-        std::string replacement = dictionary.getValue(input -1);
+        std::string replacement = dictionary.getValue(input -1) + suffix;
         inputFile.replace(index, replacement);
     } else {
         std::cout << std::endl << "invalid input, exiting replace-mode" << std::endl;

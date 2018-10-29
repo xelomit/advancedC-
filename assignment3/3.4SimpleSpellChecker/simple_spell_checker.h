@@ -18,7 +18,7 @@ public:
 
     simple_spell_checker(std::string dictFileName, std::string inputFileName);
     void spellCheck();
-    void replace(int index);
+    void replace(int index, std::string suffix);
     void printCorrectedText();
 
 };
