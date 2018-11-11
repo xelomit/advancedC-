@@ -9,7 +9,7 @@ public class Main {
         Vector<String> vector = new Vector<>();
 
         for(int i = 0; i<10000000; i++) {
-            if (i==9000000) {
+            if (i==9999999) {
                 vector.add("foo");
             } else {
                 vector.add("bar");
