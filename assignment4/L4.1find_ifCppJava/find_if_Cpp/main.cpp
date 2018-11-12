@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include <chrono>
 
 std::string value = "foo";
 
@@ -15,6 +16,7 @@ int main() {
 
     std::vector<std::string> vector;
 
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     for(int i = 0; i<10000000; i++) {
 
@@ -31,6 +33,14 @@ int main() {
     }
 
     auto ite = std::find_if(vector.begin(), vector.end(), match);
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+
+    double totalTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime-startTime).count();
+    double totalTimeSec = totalTime/1000000000;
+
+    std::cout << "Total run time in seconds: " << totalTimeSec << std::endl;
+
 
     if (ite == vector.end()) {
 

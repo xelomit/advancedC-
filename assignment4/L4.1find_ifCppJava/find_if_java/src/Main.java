@@ -8,6 +8,8 @@ public class Main {
         Matcher<String> matcher =  new Matcher<>("foo");
         Vector<String> vector = new Vector<>();
 
+        long startTime = System.nanoTime();
+
         for(int i = 0; i<10000000; i++) {
             if (i==9999999) {
                 vector.add("foo");
@@ -18,11 +20,16 @@ public class Main {
 
         String foundElem = findIf(vector.iterator(), matcher);
 
+        long endTime = System.nanoTime();
+        long totalTime = endTime - startTime;
+
         if(foundElem == null) {
             System.out.println("Element \"" + matcher.getValue() + "\" not found!");
         } else {
             System.out.println("Found element: \"" + foundElem + "\"");
         }
+
+        System.out.println("Total run time in seconds: " + (double)totalTime/1000000000);
 
     }
 
