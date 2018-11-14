@@ -3,4 +3,4 @@ project(L4_3ContainerMergeReImpl)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(L4_3ContainerMergeReImpl main.cpp)
+add_executable(L4_3ContainerMergeReImpl main.cpp container_merger.h)
