@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <map>
 
 template <typename C1, typename C2>
 struct container_merger {
@@ -81,18 +82,16 @@ public:
         printMapC1(c1);
         printMapC2(c2);
 
-/*         C1 dst;
+        // Here, with this solution some functionality is actually lost, as c2 is required to have different keys than
+        // c1 such that all the values from c2 (independently of their key) can be merged into c1. To show the correct
+        // functionality of this method, I changed c2's keys in main.cpp.
 
-        std::merge(c1.begin(), c1.end(), c2.begin(), c2.end(), std::inserter(dst, dst.end()));
+        C1 dst;
 
-        c1 = dst;*/
+        std::merge(c1.begin(), c1.end(), c2.begin(), c2.end(), std::inserter(dst, dst.begin()));
 
-       long count = c1.size();
+        c1 = dst;
 
-        for(auto iteC2 = c2.begin(); iteC2 != c2.end(); iteC2++) {
-            c1.insert(std::make_pair(count, iteC2->second));
-            count ++;
-        }
     }
 
     void mergeCpp98SeqContIntoMapBasedAssocCont (C1 &c1, C2 &c2) {

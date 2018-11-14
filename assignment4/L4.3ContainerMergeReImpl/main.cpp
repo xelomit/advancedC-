@@ -46,8 +46,8 @@ int main() {
     m1.insert(std::make_pair(1, 11));
 
     std::unordered_map<int, int> m2;
-    m2.insert(std::make_pair(0, 12));
-    m2.insert(std::make_pair(1, 13));
+    m2.insert(std::make_pair(2, 12));
+    m2.insert(std::make_pair(3, 13));
 
     printHelp();
 
