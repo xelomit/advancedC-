@@ -3,4 +3,4 @@ project(L4_4UnlimitedStack)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(L4_4UnlimitedStack main.cpp)
+add_executable(L4_4UnlimitedStack main.cpp stack.cpp stack.h unlimited_stack.cpp unlimited_stack.h)
