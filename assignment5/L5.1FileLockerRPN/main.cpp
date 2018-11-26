@@ -1,6 +1,11 @@
 #include <iostream>
+#include "fraction.h"
+#include "RPNCalculator.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    RPNCalculator<fraction> calc;
+    calc.calculate();
+
     return 0;
 }
