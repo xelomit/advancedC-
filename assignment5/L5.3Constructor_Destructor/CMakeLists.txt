@@ -3,4 +3,4 @@ project(L5_3Constructor_Destructor)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(L5_3Constructor_Destructor main.cpp)
+add_executable(L5_3Constructor_Destructor main.cpp base.cpp base.h child.cpp child.h)
