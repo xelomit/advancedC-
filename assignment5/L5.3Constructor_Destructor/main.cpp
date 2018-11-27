@@ -25,3 +25,10 @@ int main() {
     */
     return 0;
 }
+
+/* The calling of con- and destructors in case of inheritance follows the 'onion'-principle:
+ * After instantiating a "child"-object, first the child-class's base-class's constructor is executed,
+ * followed by the constructor of the child-class itself.
+ * The executions of destructors follow the opposite way: First, the child-class destructor is executed,
+ * followed by the destructor of the base-class.
+ * */
