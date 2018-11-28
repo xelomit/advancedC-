@@ -9,7 +9,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/file.h>
-
 #include <string>
 
 struct FileLocker {
@@ -26,6 +25,5 @@ public:
     int unlock();
 
 };
-
 
 #endif //L5_1FILELOCKERRPN_FILELOCKER_H

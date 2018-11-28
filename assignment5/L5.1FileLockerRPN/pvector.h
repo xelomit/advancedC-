@@ -18,6 +18,7 @@ class pvector {
     std::string filename;
     std::vector<T> v;
     FileLocker fileLocker;
+    bool locked = false;
 
     void readvector() {
         std::ifstream ifs(filename);
@@ -32,12 +33,11 @@ class pvector {
 public:
     pvector(std::string fname) : filename(fname), fileLocker(fname) {
 
-        readvector();
         if(fileLocker.lock() == 0) {
-
             readvector();
 
         } else {
+            this->locked = true;
             std::cout << "File " << fname << " is already x-locked!" << std::endl;
         }
     }
@@ -64,6 +64,10 @@ public:
 
     T get (int index) {
         return v[index];
+    }
+
+    bool isLocked() const {
+        return locked;
     }
 
 };

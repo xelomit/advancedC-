@@ -14,7 +14,9 @@ class RPNCalculator {
     bool quit;
 
 public:
-    RPNCalculator() : vectorStack("/tmp/RPNVector.txt"), quit(false) { }
+    RPNCalculator() : vectorStack("/tmp/RPNVector.txt"), quit(false) {
+        if (this->vectorStack.isLocked()) quit = true;
+    }
 
     inline T mymin(T a, T b) {
         return a<b ? a : b;
