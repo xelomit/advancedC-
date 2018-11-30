@@ -3,4 +3,4 @@ project(L5_5BinOp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(L5_5BinOp main.cpp)
+add_executable(L5_5BinOp main.cpp binop.h)
